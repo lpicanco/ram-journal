@@ -1,0 +1,11 @@
+[Unit]
+Description=RAM-Journal
+After=local-fs.target var-log.mount boot.mount -.mount
+Before=syslog.service rsyslog.service
+AssertPathExists=/usr/bin/ram-journal
+
+[Service]
+Type=simple
+Restart=always
+ExecStart=/usr/bin/ram-journal
+
