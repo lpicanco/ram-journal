@@ -9,16 +9,24 @@ use std::{fs, thread};
 use clap::Parser;
 use clokwerk::{Scheduler, TimeUnits};
 use signal_hook::flag;
+use simple_logger::SimpleLogger;
 use sys_mount::{FilesystemType, Mount, MountFlags, Unmount, UnmountFlags};
 
 use crate::config::Config;
+
+use log::{info, LevelFilter};
 
 mod config;
 mod sync;
 
 fn main() {
+    SimpleLogger::new()
+        .with_level(LevelFilter::Info)
+        .with_module_level("lms_lib", LevelFilter::Warn)
+        .init()
+        .unwrap();
+
     let config: Config = Config::parse();
-    println!("Args: {:?}", config);
 
     // If sync dir doesn't exists(first run), save to disk.
     if config.sync_interval > 0 && !Path::new(&config.sync_dir).is_dir() {
@@ -43,7 +51,6 @@ fn main() {
         thread::sleep(Duration::from_millis(1000));
     }
 
-    println!("Exiting");
     if config.sync_interval > 0 {
         sync::save_to_disk(&config);
     }
@@ -51,7 +58,8 @@ fn main() {
 }
 
 fn umount(mount: Mount) {
-    mount.unmount(UnmountFlags::empty()).unwrap()
+    mount.unmount(UnmountFlags::DETACH).unwrap();
+    info!("{} Unmounted", mount.target_path().to_str().unwrap());
 }
 
 fn schedule_sync(config: &Config) -> Scheduler {
@@ -80,6 +88,6 @@ fn mount(config: &Config) -> Mount {
 
     let mount = mount_builder.mount("ram-journal", &config.log_dir).unwrap();
 
-    println!("Mounted");
+    info!("{} Mounted", &config.log_dir);
     return mount;
 }

@@ -1,5 +1,4 @@
 [package]
-
 name = "ram-journal"
 version = "0.1.0"
 edition = "2021"
@@ -8,5 +7,7 @@ edition = "2021"
 clap = { version = "4.0.15", features = ["derive"] }
 clokwerk = "0.3.5"
 lms_lib = "0.4.0"
+log = "0.4.17"
 signal-hook = { version = "0.3.14", default-features = false }
+simple_logger = { version = "2.3.0", default-features = false, features = ["colors"] }
 sys-mount = { version = "1.5.1", default-features = false }
