@@ -17,10 +17,10 @@ jobs:
       fail-fast: false
       matrix:
         target:
-          - aarch64-unknown-linux-gnu
-          - armv7-unknown-linux-gnueabihf
+#           - aarch64-unknown-linux-gnu
+#           - armv7-unknown-linux-gnueabihf
           - x86_64-unknown-linux-gnu
-          - x86_64-unknown-linux-musl
+#           - x86_64-unknown-linux-musl
     steps:
       - uses: actions/checkout@v2 #v3
       - uses: actions-rs/toolchain@v1
@@ -28,12 +28,17 @@ jobs:
           toolchain: stable
           target: ${{matrix.target}}
           override: true
+      - name: Rust cache
+        uses: Swatinem/rust-cache@v2.0.1
+        with:
+          key: ${{ matrix.target }}          
       - name: Install cargo-deb
         uses: actions-rs/cargo@v1
         with:
           command: install
           args: cargo-deb          
-      - uses: actions-rs/cargo@v1
+      - name: Build
+        uses: actions-rs/cargo@v1
         with:
           use-cross: true
           command: build
@@ -42,4 +47,27 @@ jobs:
         with:
           command: deb
           args: --no-build --target ${{matrix.target}} --no-strip
+      - id: get_version
+        uses: battila7/get-version-action@v2.2.1
+      - name: Package
+        run: >
+          tar -cvzf ram-journal-${{ steps.get_version.outputs.value }}-${{ matrix.target }}.tar.gz
+          LICENSE README.md target/${{ matrix.target }}/release/ram-journal
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.target }}
+          path: |
+            *.deb
+            *.tar.gz
+      - name: Create release
+        uses: softprops/action-gh-release@v1
+        with:
+          draft: true
+          files: |
+            *.deb
+            *.tar.gz
+          name: ${{ steps.get_version.outputs.value }}          
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}            
           
