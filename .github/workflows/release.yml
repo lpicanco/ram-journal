@@ -28,7 +28,11 @@ jobs:
           toolchain: stable
           target: ${{matrix.target}}
           override: true
-          components: cargo-deb
+      - name: Install cargo-deb
+        uses: actions-rs/cargo@v1
+        with:
+          command: install
+          args: cargo-deb          
       - uses: actions-rs/cargo@v1
         with:
           use-cross: true
