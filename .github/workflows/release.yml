@@ -1,10 +1,10 @@
 name: Release
 
-on: [workflow_dispatch]
-#   push:
-#     branches: [ "master" ]
-#   pull_request:
-#     branches: [ "master" ]
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
 
 env:
   CARGO_TERM_COLOR: always
@@ -22,7 +22,7 @@ jobs:
           - x86_64-unknown-linux-gnu
           - x86_64-unknown-linux-musl
     steps:
-      - uses: actions/checkout@v2 #v3
+      - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
@@ -50,15 +50,15 @@ jobs:
       - id: get_version
         uses: battila7/get-version-action@v2.2.1
       - name: Package
-        run: >
-          tar -cvzf ram-journal-${{ steps.get_version.outputs.value }}-${{ matrix.target }}.tar.gz
-          LICENSE README.md -C target/${{ matrix.target }}/release ram-journal
+        run: |
+          tar -cvzf ram-journal-${{ steps.get_version.outputs.version }}-${{ matrix.target }}.tar.gz LICENSE README.md -C target/${{ matrix.target }}/release ram-journal
+          mv target/${{ matrix.target }}/debian/*.deb .
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
           name: ${{ matrix.target }}
           path: |
-            target/${{ matrix.target }}/debian/*.deb
+            *.deb
             *.tar.gz
       - name: Create release
         uses: softprops/action-gh-release@v1
@@ -67,7 +67,4 @@ jobs:
           files: |
             *.deb
             *.tar.gz
-          name: ${{ steps.get_version.outputs.value }}          
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}            
-          
+          name: ${{ steps.get_version.outputs.version }}
