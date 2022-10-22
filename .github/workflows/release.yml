@@ -52,7 +52,7 @@ jobs:
       - name: Package
         run: |
           tar -cvzf ram-journal-${{ steps.get_version.outputs.version-without-v }}-${{ matrix.target }}.tar.gz LICENSE README.md -C target/${{ matrix.target }}/release ram-journal
-          mv target/${{ matrix.target }}/debian/*.deb .
+          mv target/${{ matrix.target }}/debian/*.deb ram-journal-${{ steps.get_version.outputs.version-without-v }}-${{ matrix.target }}.deb
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
