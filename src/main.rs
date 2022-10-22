@@ -6,7 +6,6 @@ use std::sync::Arc;
 use std::time::Duration;
 use std::{fs, thread};
 
-use clap::Parser;
 use clokwerk::{Scheduler, TimeUnits};
 use signal_hook::flag;
 use simple_logger::SimpleLogger;
@@ -26,7 +25,7 @@ fn main() {
         .init()
         .unwrap();
 
-    let config: Config = Config::parse();
+    let config: Config = Config::load();
 
     // If sync dir doesn't exists(first run), save to disk.
     if config.sync_interval > 0 && !Path::new(&config.sync_dir).is_dir() {
@@ -48,7 +47,7 @@ fn main() {
 
     while !term.load(Ordering::Relaxed) {
         scheduler.run_pending();
-        thread::sleep(Duration::from_millis(1000));
+        thread::sleep(Duration::from_secs(1));
     }
 
     if config.sync_interval > 0 {
