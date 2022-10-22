@@ -19,4 +19,8 @@ twelf = { version = "0.7.0", features = ["ini", "clap", "env"], default-features
 
 [package.metadata.deb]
 maintainer-scripts = "debian/"
-systemd-units = { enable = true }
+systemd-units = { enable = true, start = false }
+assets = [
+    ["target/release/ram-journal", "usr/bin/", "755"],
+    ["assets/ram-journal.conf", "/etc/ram-journal/ram-journal.conf", "644"],
+]

@@ -1,12 +1,13 @@
 [Unit]
 Description=RAM-Journal
-After=local-fs.target var-log.mount boot.mount -.mount
-Before=syslog.service rsyslog.service
+After=local-fs.target
+Before=syslog.service rsyslog.service systemd-journald.service
 AssertPathExists=/usr/bin/ram-journal
+DefaultDependencies=no
 
 [Install]
 Alias=ram-journal
-WantedBy=default.target
+WantedBy=sysinit.target
 
 [Service]
 Type=simple

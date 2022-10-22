@@ -45,7 +45,7 @@ mod defaults {
     }
 
     pub fn sync_interval() -> u32 {
-        20
+        24
     }
 
     pub fn sync_dir() -> String {
