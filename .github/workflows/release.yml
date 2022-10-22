@@ -51,7 +51,7 @@ jobs:
         uses: battila7/get-version-action@v2.2.1
       - name: Package
         run: |
-          tar -cvzf ram-journal-${{ steps.get_version.outputs.version }}-${{ matrix.target }}.tar.gz LICENSE README.md -C target/${{ matrix.target }}/release ram-journal
+          tar -cvzf ram-journal-${{ steps.get_version.outputs.version-without-v }}-${{ matrix.target }}.tar.gz LICENSE README.md -C target/${{ matrix.target }}/release ram-journal
           mv target/${{ matrix.target }}/debian/*.deb .
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
