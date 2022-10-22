@@ -6,6 +6,7 @@ license-file = "LICENSE"
 authors = ["Luiz Picanço <lpicanco@gmail.com>"]
 readme = "README.md"
 description = "Efficiently in-memory log manager"
+repository = "https://github.com/lpicanco/ram-journal"
 
 [dependencies]
 clap = { version = "3.2.18", features = ["derive"] }
