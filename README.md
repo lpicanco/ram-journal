@@ -3,6 +3,30 @@ Efficiently in-memory log manager
 
 Ram journal is a system that considerably reduces disk read and write operations by keeping logs from the /var/log directory in memory. It works in two ways:
 
+## Installation
+
+x86_64
+```bash
+curl -fOL https://github.com/lpicanco/ram-journal/releases/download/v0.1.2/ram-journal-0.1.2-x86_64-unknown-linux-gnu.deb
+sudo dpkg -i ram-journal-0.1.2-x86_64-unknown-linux-gnu.deb
+# reboot the system
+```
+
+Raspberry 2-4(32 bits)
+```bash
+curl -fOL https://github.com/lpicanco/ram-journal/releases/download/v0.1.2/ram-journal-0.1.2-armv7-unknown-linux-gnueabihf.deb
+sudo dpkg -i ram-journal-0.1.2-armv7-unknown-linux-gnueabihf.deb
+# reboot the system
+```
+
+Raspberry 4(64 bits)
+```bash
+curl -fOL https://github.com/lpicanco/ram-journal/releases/download/v0.1.2/ram-journal-0.1.2-aarch64-unknown-linux-gnu.deb
+sudo dpkg -i ram-journal-0.1.2-aarch64-unknown-linux-gnu.deb
+# reboot the system
+```
+
+
 ## Configuration
 Configuration are kept in the `/etc/ram-journal/ram-journal.conf` file:
 ```ìni
