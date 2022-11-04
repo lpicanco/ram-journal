@@ -25,21 +25,32 @@ sync_interval=0
 
 ## Installation
 
-x86_64
+### APT Repository
+
+#### Debian
+```bash
+sudo wget -q "https://neutrine.com/deb/public.gpg" -O /etc/apt/trusted.gpg.d/neutrine.com.gpg
+sudo sh -c 'echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/trusted.gpg.d/neutrine.com.gpg] https://deb.neutrine.com bullseye main" > /etc/apt/sources.list.d/neutrine.com.list'
+sudo apt update
+sudo apt install ram-journal
+```
+
+### Manually
+#### x86_64
 ```bash
 curl -fOL https://github.com/lpicanco/ram-journal/releases/download/v0.1.2/ram-journal-0.1.2-x86_64-unknown-linux-gnu.deb
 sudo dpkg -i ram-journal-0.1.2-x86_64-unknown-linux-gnu.deb
 # reboot the system
 ```
 
-Raspberry 2-4(32 bits)
+#### Raspberry 2-4(32 bits)
 ```bash
 curl -fOL https://github.com/lpicanco/ram-journal/releases/download/v0.1.2/ram-journal-0.1.2-armv7-unknown-linux-gnueabihf.deb
 sudo dpkg -i ram-journal-0.1.2-armv7-unknown-linux-gnueabihf.deb
 # reboot the system
 ```
 
-Raspberry 4(64 bits)
+#### Raspberry 4(64 bits)
 ```bash
 curl -fOL https://github.com/lpicanco/ram-journal/releases/download/v0.1.2/ram-journal-0.1.2-aarch64-unknown-linux-gnu.deb
 sudo dpkg -i ram-journal-0.1.2-aarch64-unknown-linux-gnu.deb
