@@ -29,7 +29,7 @@ sync_interval=0
 
 #### Debian
 ```bash
-sudo wget -q "https://neutrine.com/deb/public.gpg" -O /etc/apt/trusted.gpg.d/neutrine.com.gpg
+curl -fsSL https://neutrine.com/deb/public.gpg | sudo tee /etc/apt/trusted.gpg.d/neutrine.com.gpg >/dev/null
 sudo sh -c 'echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/trusted.gpg.d/neutrine.com.gpg] https://deb.neutrine.com bullseye main" > /etc/apt/sources.list.d/neutrine.com.list'
 sudo apt update
 sudo apt install ram-journal
